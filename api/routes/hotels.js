@@ -60,7 +60,7 @@ router.get("/", async(req, res) => {
 
     try{
         const values = await hotelSchema.find();
-        res.status(200).json(allvalues);
+        res.status(200).json(values);
 
     }
     catch(err){
