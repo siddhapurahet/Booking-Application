@@ -43,7 +43,7 @@ router.put("/:id", async(req, res) => {
     }
 })
 //GET
-router.get("/:id", async(req, res) => {
+router.get("/findbyid/:id", async(req, res) => {
 
     try{
         const updatedvalues = await hotelSchema.findById(req.params.id);
@@ -64,6 +64,35 @@ router.get("/", async(req, res) => {
 
     }
     catch(err){
+        res.status(500).json(err);
+    }
+})
+
+//COUNT BY CITY
+router.get("/countbycity", async(req, res) => {
+
+    const cities = req.query.cities.split(",");    
+    try{
+        const countbycityvalues = await Promise.all(cities.map(city => {
+            return hotelSchema.countDocuments({city: city});
+        }))
+        res.status(200).json(countbycityvalues);
+
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+})
+
+//COUNTBY TYPE
+router.get("/countbytype", async(req, res) => {
+
+    try{
+        const values = await hotelSchema.find();
+        res.status(200).json(values); 
+
+    }
+    catch(err){  
         res.status(500).json(err);
     }
 })
